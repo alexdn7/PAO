@@ -22,22 +22,42 @@ public class StoreService {
 
     public void listAllProducts() {
         for(Product p: products){
-            System.out.println(p.getStock());
+            System.out.println("Type: " + p.getClass() +  "\n" + "Name: " + p.getName() + "\n" + "Description: " + p.getDescription() + "\n" +
+                               "Price: " + p.getPrice() + "\n" + "Stock: " + p.getStock());
+
+            if (p instanceof ElectronicProduct electronicProduct) {
+                System.out.println("Warranty: " + electronicProduct.getWarranty() + "\n" + "Power: " + electronicProduct.getPower());
+            }
+
+            else if (p instanceof FoodProduct foodProduct) {
+                System.out.println("ProdDate: " + foodProduct.getProdDate() + "\n" + "ExpDate: " + foodProduct.getExpDate());
+            }
+
+            else {
+                ClothingProduct clothingProduct = (ClothingProduct) p;
+                System.out.println("Size: " + clothingProduct.getSize());
+            }
+
+            System.out.println("Reviews: " + p.getReviews() + "\n");
         }
 
     }
 
     public void addStock(String name, int stock) {
         for(Product p: products) {
-            if(p.getName().equalsIgnoreCase(name))
+            if(p.getName().equalsIgnoreCase(name)) {
                 p.setStock(stock);
+                break;
+            }
         }
     }
 
     public void addReview(String name, String review) {
         for(Product p: products)
-            if(p.getName().equalsIgnoreCase(name))
+            if(p.getName().equalsIgnoreCase(name)) {
                 p.addReview(review);
+                break;
+            }
     }
 
     public void addCostumer(Costumer c) {
@@ -85,6 +105,30 @@ public class StoreService {
         for(Costumer c: costumers)
             if(c.getName().equalsIgnoreCase(name)) {
                 System.out.println(c.getCartInfo());
+                break;
+            }
+    }
+
+    public void modifyAddress(String name, String address) {
+        for(Costumer c: costumers)
+            if(c.getName().equalsIgnoreCase(name)) {
+                c.setAddress(address);
+                break;
+            }
+    }
+
+    public void modifyEmail(String name, String email) {
+        for(Costumer c: costumers)
+            if(c.getName().equalsIgnoreCase(name)) {
+                c.setEmail(email);
+                break;
+            }
+    }
+
+    public void modifyPhoneNumber(String name, String phoneNumber) {
+        for(Costumer c: costumers)
+            if(c.getName().equalsIgnoreCase(name)) {
+                c.setPhoneNumber(phoneNumber);
                 break;
             }
     }

@@ -44,6 +44,9 @@ public abstract class Product {
         this.stock = stock;
     }
 
+    public String getReviews() {
+        return reviews.toString();
+    }
     public void addReview(String review) {
         this.reviews.add(review);
     }
