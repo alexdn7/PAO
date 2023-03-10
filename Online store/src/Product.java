@@ -36,7 +36,7 @@ public abstract class Product {
         return stock;
     }
 
-    public void setPrice() {
+    public void setPrice(int price) {
         this.price = price;
     }
 

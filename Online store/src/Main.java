@@ -8,6 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to our online store!");
         System.out.println("If you want to exit, type '0'");
+        System.out.println("Else, type anything else: ");
 
         var status = scanner.next();
 
@@ -50,6 +51,9 @@ public class Main {
                     System.out.println("3. Add review to a product");
                     System.out.println("4. Change the stock of a product");
                     System.out.println("5. List all costumers");
+                    System.out.println("6. Change the price of a product");
+                    System.out.println("7. Add an item in your shopping cart");
+                    System.out.println("8. View items from your cart");
                     var operation = scanner.next();
 
                     switch (operation) {
@@ -112,6 +116,24 @@ public class Main {
                             }
                         }
                         case "5" -> storeService.listAllCostumers();
+                        case "6" -> {
+                            System.out.println("Enter product name: ");
+                            var prodName = scanner.next();
+                            if(!storeService.verifyProduct(prodName))
+                                System.out.println("This product does not exist!");
+                            else {
+                                System.out.println("New value: ");
+                                var newPrice = scanner.nextInt();
+                                storeService.addStock(prodName, newPrice);
+                                System.out.println("Changed!");
+                            }
+                        }
+                        case "7" -> {
+                            System.out.println("Product name: ");
+                            var prodName = scanner.next();
+                            storeService.addItemInCart(name, prodName);
+                            }
+                       case "8" -> storeService.printCartInfo(name);
                     }
                 }
 
@@ -122,6 +144,7 @@ public class Main {
             }
 
             System.out.println("If you want to exit, type '0'");
+            System.out.println("Else, type anything else: ");
             status = scanner.next();
         }
     }

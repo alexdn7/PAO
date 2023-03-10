@@ -1,11 +1,15 @@
+import java.util.Map;
+
 public class Costumer {
     private String name, address, phoneNumber, email;
+    private ShoppingCart shoppingCart;
 
     public Costumer(String name, String address, String phoneNumber, String email) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        shoppingCart = new ShoppingCart();
     }
 
     public String getName() {
@@ -40,4 +44,11 @@ public class Costumer {
                 "Phone Number: " + this.getPhoneNumber() +"\n" + "Email: " + this.getEmail() + "\n");
     }
 
+    public Map<String, Integer> getCartInfo() {
+        return shoppingCart.getProducts();
+    }
+
+    public void addItemInCart(String name) {
+        shoppingCart.addInCart(name);
+    }
 }

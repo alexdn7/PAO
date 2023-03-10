@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class StoreService {
@@ -30,14 +29,14 @@ public class StoreService {
 
     public void addStock(String name, int stock) {
         for(Product p: products) {
-            if(p.getName().equals(name))
+            if(p.getName().equalsIgnoreCase(name))
                 p.setStock(stock);
         }
     }
 
     public void addReview(String name, String review) {
         for(Product p: products)
-            if(p.getName().equals(name))
+            if(p.getName().equalsIgnoreCase(name))
                 p.addReview(review);
     }
 
@@ -63,5 +62,30 @@ public class StoreService {
             if(p.getName().equalsIgnoreCase(name))
                 return true;
         return false;
+    }
+
+    public void modifyPrice(String name, int price) {
+        for(Product p: products) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                p.setPrice(price);
+                break;
+            }
+        }
+    }
+
+    public void addItemInCart(String name,String prodName) {
+        for(Costumer c: costumers)
+            if(c.getName().equalsIgnoreCase(name)) {
+                c.addItemInCart(prodName);
+                break;
+            }
+    }
+
+    public void printCartInfo(String name) {
+        for(Costumer c: costumers)
+            if(c.getName().equalsIgnoreCase(name)) {
+                System.out.println(c.getCartInfo());
+                break;
+            }
     }
 }
