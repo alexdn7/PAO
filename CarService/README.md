@@ -1,4 +1,4 @@
-It started in the laboratory and finished by me.
+Started in the laboratory and finished by me.
 
 The project contains a Car class, a CarService (Singleton).
 For each car we have the name, color and an array of reviews (initially empty).
