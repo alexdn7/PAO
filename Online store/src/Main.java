@@ -1,9 +1,20 @@
+import models.Costumer;
+import models.product.ClothingProduct;
+import models.product.ElectronicProduct;
+import models.product.FoodProduct;
+import repositories.DatabaseRepository;
+import repositories.IDatabaseRepository;
+import services.StoreService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        var storeService = StoreService.getInstance();
+        IDatabaseRepository databaseRepository = new DatabaseRepository();
+        var storeService = StoreService.getInstance(databaseRepository);
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to our online store!");
@@ -82,7 +93,7 @@ public class Main {
             switch (operation) {
                 case "1" -> storeService.listAllProducts();
                 case "2" -> {
-                    System.out.println("Enter product type: (Electrical, clothing, food) ");
+                    System.out.println("Enter product type: (Electronic, clothing, food) ");
                     var productType = scanner.next();
                     System.out.println("Enter product name: ");
                     var productName = scanner.next();
@@ -92,22 +103,27 @@ public class Main {
                     var productPrice = scanner.nextDouble();
                     System.out.println("Enter stock: ");
                     var stock = scanner.nextInt();
-                    if (productType.equalsIgnoreCase("Electrical")) {
+                    if (productType.equalsIgnoreCase("Electronic")) {
                         System.out.println("Enter warranty (no. of months): ");
                         var warranty = scanner.nextInt();
                         System.out.println("Power: ");
                         var power = scanner.next();
                         storeService.addProduct(new ElectronicProduct(productName, productDescription, productPrice, stock, warranty, power));
-                        System.out.println("Product added!");
+                        System.out.println("models.product.Product added!");
                     }
 
                     else if(productType.equalsIgnoreCase("food")) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                         System.out.println("Date of manufacture (DD-MM-YYYY): ");
                         var prodDate = scanner.next();
                         System.out.println("Expiration date (DD-MM-YYYY): ");
                         var expDate = scanner.next();
-                        storeService.addProduct(new FoodProduct(productName, productDescription, productPrice, stock, prodDate, expDate));
-                        System.out.println("Product added!");
+                        try {
+                            storeService.addProduct(new FoodProduct(productName, productDescription, productPrice, stock, dateFormat.parse(prodDate), dateFormat.parse(expDate)));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println("models.product.Product added!");
                     }
 
                     else {
@@ -154,7 +170,7 @@ public class Main {
                     }
                 }
                 case "7" -> {
-                    System.out.println("Product name: ");
+                    System.out.println("models.product.Product name: ");
                     var prodName = scanner.next();
                     storeService.addItemInCart(name, prodName);
                 }
@@ -180,5 +196,6 @@ public class Main {
             System.out.println("Else, type anything else: ");
             status = scanner.next();
             }
+
     }
 }
