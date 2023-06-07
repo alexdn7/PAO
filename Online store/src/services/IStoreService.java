@@ -8,7 +8,17 @@ public interface IStoreService {
 
     void listAllProducts();
 
-    void addStock(String name, int stock);
+    void listAllProductsSortedByName();
 
-    void addReview(String name, String review);
+    void listAllProductsSortedByPrice();
+
+    void addStock(int productId, int stock);
+
+    void addReview(int productId, String review);
+
+    void deleteProductById(int id);
+
+    boolean verifyProduct(int productId);
+
+    void modifyPrice(int productId, double price);
 }

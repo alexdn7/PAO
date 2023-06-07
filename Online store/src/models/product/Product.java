@@ -1,25 +1,37 @@
 package models.product;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Product {
 
     private String name, description;
     private double price;
     private int stock;
-    private List<String> reviews = new ArrayList<>();
+    private String review = "";
+    private final String type;
 
-    public Product(String name, String description, double price, int stock) {
+    public Product(String name, String description, double price, int stock, String type) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.type = type;
+    }
+
+    public Product(String name, String description, double price, int stock, String type, String review) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.type = type;
+        this.review = review;
     }
 
     public String getName() {
 
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getDescription() {
@@ -45,12 +57,14 @@ public abstract class Product {
         this.stock = stock;
     }
 
-    public String getReviews() {
-        return reviews.toString();
+    public String getReview() {
+        return review;
     }
-    public void addReview(String review) {
-        this.reviews.add(review);
+
+    public void setReview(String review) {
+        this.review = review;
     }
+
 
     @Override
     public String toString() {
@@ -58,7 +72,7 @@ public abstract class Product {
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", reviews=" + reviews.toString() + ", ";
+                ", review=" + review + ", ";
     }
 }
 

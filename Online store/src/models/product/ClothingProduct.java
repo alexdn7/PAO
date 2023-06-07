@@ -5,8 +5,8 @@ import models.product.Product;
 public class ClothingProduct extends Product {
     private String size;
 
-    public ClothingProduct(String name, String description, double price, int stock, String size) {
-        super(name, description, price, stock);
+    public ClothingProduct(String name, String description, double price, int stock, String size, String type) {
+        super(name, description, price, stock, type);
         this.size = size;
     }
 

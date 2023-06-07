@@ -6,8 +6,8 @@ public class ElectronicProduct extends Product {
     private String power;
     private int warranty;
 
-    public ElectronicProduct(String name, String description, double price, int stock, int warranty, String power) {
-        super(name, description, price, stock);
+    public ElectronicProduct(String name, String description, double price, int stock, int warranty, String power, String type) {
+        super(name, description, price, stock, type);
         this.warranty = warranty;
         this.power = power;
     }

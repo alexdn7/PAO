@@ -1,6 +1,5 @@
 package services;
 
-import models.Costumer;
 import models.product.Product;
 import repositories.IDatabaseRepository;
 
@@ -8,9 +7,8 @@ import java.util.*;
 
 public class StoreService implements IStoreService{
 
-    Set<Product> products = new HashSet<>();
-    List<Costumer> costumers = new ArrayList<>();
     IDatabaseRepository databaseRepository;
+    private final AuditService auditService = new AuditService();
 
     private StoreService(IDatabaseRepository databaseRepository) {
         this.databaseRepository = databaseRepository;
@@ -28,6 +26,7 @@ public class StoreService implements IStoreService{
 
     public void addProduct(Product product) {
         databaseRepository.addProduct(product);
+        auditService.logAction("addProduct");
     }
 
     public void listAllProducts() {
@@ -35,95 +34,51 @@ public class StoreService implements IStoreService{
             int key = entry.getKey();
             System.out.println(key + ": " + entry.getValue().toString());
         }
+        auditService.logAction("listAllProducts");
     }
 
-    public void addStock(String name, int stock) {
-        for(Product p: products) {
-            if(p.getName().equalsIgnoreCase(name)) {
-                p.setStock(stock);
-                break;
-            }
+    public void listAllProductsSortedByName() {
+        List<Product> productList = new ArrayList<>(databaseRepository.getAllProducts().values());
+        productList.sort(Comparator.comparing(Product::getName));
+
+        for (Product product : productList) {
+            System.out.println(product.toString());
         }
+        auditService.logAction("listAllProductsSortedByName");
     }
 
-    public void addReview(String name, String review) {
-        for(Product p: products)
-            if(p.getName().equalsIgnoreCase(name)) {
-                p.addReview(review);
-                break;
-            }
-    }
+    public void listAllProductsSortedByPrice() {
+        List<Product> productList = new ArrayList<>(databaseRepository.getAllProducts().values());
+        productList.sort(Comparator.comparing(Product::getPrice));
 
-    public void addCostumer(Costumer c) {
-        costumers.add(c);
-    }
-
-    public void listAllCostumers() {
-        for(Costumer c: costumers){
-            System.out.println(c.toString());
+        for (Product product : productList) {
+            System.out.println(product.toString());
         }
+        auditService.logAction("listAllProductsSortedByPrice");
     }
 
-    public boolean verify(String name) {
-        for(Costumer c: costumers)
-            if(c.getName().equalsIgnoreCase(name))
-                return true;
-        return false;
+    public void addStock(int productId, int stock) {
+        databaseRepository.addStock(productId, stock);
+        auditService.logAction("addStock");
     }
 
-    public boolean verifyProduct(String name) {
-        for(Product p: products)
-            if(p.getName().equalsIgnoreCase(name))
-                return true;
-        return false;
+    public void addReview(int productId, String review) {
+        databaseRepository.addReview(productId, review);
+        auditService.logAction("addReview");
     }
 
-    public void modifyPrice(String name, int price) {
-        for(Product p: products) {
-            if (p.getName().equalsIgnoreCase(name)) {
-                p.setPrice(price);
-                break;
-            }
-        }
+    public boolean verifyProduct(int productId) {
+        return databaseRepository.verifyProduct(productId);
     }
 
-    public void addItemInCart(String name,String prodName) {
-        for(Costumer c: costumers)
-            if(c.getName().equalsIgnoreCase(name)) {
-                c.addItemInCart(prodName);
-                break;
-            }
+    public void modifyPrice(int productId, double price) {
+        databaseRepository.modifyPrice(productId, price);
+        auditService.logAction("modifyPrice");
     }
 
-    public void printCartInfo(String name) {
-        for(Costumer c: costumers)
-            if(c.getName().equalsIgnoreCase(name)) {
-                System.out.println(c.getCartInfo());
-                break;
-            }
+    public void deleteProductById(int id) {
+        databaseRepository.deleteProduct(id);
+        auditService.logAction("deleteProductById");
     }
 
-    public void modifyAddress(String name, String address) {
-        for(Costumer c: costumers)
-            if(c.getName().equalsIgnoreCase(name)) {
-                c.setAddress(address);
-                break;
-            }
-    }
-
-    public void modifyEmail(String name, String email) {
-        for(Costumer c: costumers)
-            if(c.getName().equalsIgnoreCase(name)) {
-                c.setEmail(email);
-                break;
-            }
-    }
-
-    public void modifyPhoneNumber(String name, String phoneNumber) {
-        for(Costumer c: costumers)
-            if(c.getName().equalsIgnoreCase(name)) {
-                c.setPhoneNumber(phoneNumber);
-                break;
-            }
-    }
 }
